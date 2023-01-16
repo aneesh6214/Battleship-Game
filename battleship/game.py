@@ -9,7 +9,7 @@ class game:
             Returns:
                 boolean: if the orientation is a substring of "horizontal" or "vertical"
         '''
-        if orientation.lower().find("horizontally") != -1 or orientation.lower().find("vertically") != -1:
+        if orientation.lower() in "horizontally" or orientation.lower() in "vertically":
             return True
         return False
 
@@ -35,6 +35,8 @@ class game:
             return False
 
         # Check if the squares the ship will occupy are already occupied
+        if board.get_value(row, col) != "*":
+            return False
         if ship_orientation == "horizontally":
             for i in range(ship_size):
                 if board.get_value(row, col + i) != "*":
@@ -109,7 +111,7 @@ class game:
                 print("{0}, enter the orientation of your {1}, which is {2} long: ".format(players[turn], ship[0], ship[1]), end='')
                 orientation = input().strip()
                 while(self.valid_orientation(orientation) != True):
-                    print("{0}, enter the orientation of your {1} which is {2} long: ".format(players[turn], ship[0], ship[1]), end='')
+                    print("INVALID. {0}, enter the orientation of your {1} which is {2} long: ".format(players[turn], ship[0], ship[1]), end='')
                     orientation = input().strip()
 
                 # ==============================
@@ -122,7 +124,7 @@ class game:
                 row = int(location[0])
                 col = int(location[1])
                 while(self.valid_location(placement_boards[turn], row, col, ship[1], orientation) == False):
-                    print("Enter the starting location for your {0} which is {1} long, in the form row col: ".format(ship[0], ship[1]), end='')
+                    print("INVALID. Enter the starting location for your {0}, which is {1} long, in the form row col: ".format(ship[0], ship[1]), end='')
                     location = input()
                     location = self.coords_to_intlist(location)
                     row = int(location[0])
